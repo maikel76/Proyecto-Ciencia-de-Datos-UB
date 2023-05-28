@@ -20,7 +20,10 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## CARGAMOS BBDD ORIGINAL
 
+# Instalar el paquete readr si no está instalado
 install.packages("readr")
+# Cargar el paquete tibble
+library(readr)
 
 # Cargar archivo CSV (la fusión de "WHR-Happiness Score Dataset" con el "Índice de Democracia" ya se ha realizado con el software de ofimática Open Office)
 data <- read.csv("hapiscore_whr_democracy_index2022.csv")
@@ -54,11 +57,8 @@ head(data)
 
 ## CALCULAMOS MEDIA DE LOS RESULTADOS DE INDICE FELICIDAD DE CADA PAÍS (2005-2022)
 
-# Sumar las columnas desde la cuarta columna hasta la última de cada fila
-data$suma <- rowSums(data[, 4:ncol(data)])
-
-# Calcular la media de la suma 
-data$media <- rowMeans(data[,4:22])
+# Calcular la media 
+data$media <- rowMeans(data[,4:ncol(data)])
 
 # Imprimir el dataframe resultante
 print(data)
@@ -66,6 +66,7 @@ print(data)
 ```
 
 ```{r}
+
 ## GENERAMOS EL DATA FRAME CON LOS PAÍSES Y LAS 2 VARIABLES QUE NOS INTERESAN PARA NUESTRO ANÁLISIS
 
 # Instalar el paquete tibble y dplyr si no está instalado
@@ -77,20 +78,12 @@ library(tibble)
 # Cargar el paquete dplyr
 library(dplyr)
 
-# Quitar el 0 del principio de los números en la columna "score" ya que da problemas en cálculos posteriores
-data$score <- sub("^0", "", data$score)
-
 # Convertir a 0 los valores NA de la columna "score" (se considera que no obtener una puntuación es indicador de nula democracia, aunque puede ser un sesgo a revisar en un futuro)
 data$score <- ifelse(is.na(data$score), 0, data$score)
 
 # Crear un nuevo dataframe con el índice y las columnas 1 (país), 2 (puntuación democrática), y última columna (media puntuación felicidad)
 df <- data %>%
   select(1, 2, last_col())
-
-# Convertir la primera columna en el índice
-df <- df %>%
-  rownames_to_column(var = "Index") %>%
-select(-1)
 
 # Imprimir el dataframe resultante
 print(df)
@@ -121,7 +114,7 @@ print(resumen)
 ```
 
 ```{r}
-# GENERAMOS EL DATA FRAME FINAL CON LAS 10 PUNTUACIONES MÁS ALTAS Y LAS 10 MÁS BAJAS DE LA COLUMNA "MEAN"
+# GENERAMOS EL DATA FRAME FINAL CON LAS 10 PUNTUACIONES MÁS ALTAS Y LAS 10 MÁS BAJAS DE LA COLUMNA "MEAN" (media felicidad de cada país)
 
 library(dplyr)
 
@@ -140,18 +133,3 @@ print(df)
 write.csv(df, "democratic-hapiness.csv", row.names = FALSE)
 
 ```
-```{r}
-# Al analizar ambos conjuntos de datos, es posible observar una tendencia general de que los países con niveles más altos de democracia tienden a tener mayores niveles de felicidad. Esto puede atribuirse a varios factores relacionados con la democracia y la participación ciudadana en la toma de decisiones políticas. En primer lugar, y probablemente haya aquí un sesgo cultural al observar estos datos desde una perspectiva occidental y liberal, la democracia proporciona una plataforma para la participación y la expresión de opiniones individuales.
-
-#Los ciudadanos en países democráticos tienen la oportunidad de influir en las políticas y los procesos gubernamentales a través de elecciones libres y justas, así como a través de la libertad de expresión y asociación. Esta participación ciudadana activa puede llevar a una mayor sensación de empoderamiento y satisfacción con el sistema político, lo que a su vez contribuye a la felicidad individual y colectiva.
-
-#Además, la transparencia y la rendición de cuentas son componentes clave de un sistema democrático sólido. Los países con niveles más altos de democracia suelen tener instituciones y mecanismos establecidos para combatir la corrupción y garantizar la equidad en la distribución de recursos. La corrupción percibida es uno de los factores evaluados en el informe de felicidad, y su existencia puede erosionar la confianza en las instituciones y socavar el bienestar de los ciudadanos. Por lo tanto, los países con una mayor democracia y menor corrupción tienden a obtener mejores resultados en términos de felicidad.
-
-#De la misma manera, los derechos civiles y políticos son fundamentales en una sociedad democrática. La protección de los derechos humanos, la igualdad de género, la libertad de religión y otros derechos individuales contribuyen a un entorno en el que las personas se sienten valoradas y respetadas. Estos aspectos también están estrechamente relacionados con la satisfacción y la felicidad de las personas.
-
-#Sin embargo, es importante tener en cuenta que existen múltiples factores que influyen en la felicidad de una sociedad, y la democracia no es la única variable determinante. Otros aspectos, como el desarrollo económico, la estabilidad social, la calidad de vida y los sistemas de bienestar, también desempeñan un papel importante en la determinación de los niveles de felicidad de un país.
-
-#En resumen, al cruzar los datos del informe "World Happiness Report" con los resultados del índice de democracia, se observa una relación positiva entre la felicidad y el nivel de democracia en los países.
-```
-
-

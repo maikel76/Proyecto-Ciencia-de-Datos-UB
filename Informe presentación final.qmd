@@ -1,0 +1,36 @@
+---
+title: "Presentación"
+format: revealjs
+editor: visual
+---
+
+## Quarto
+
+\# Al analizar ambos conjuntos de datos, es posible observar una tendencia general de que los países con niveles más altos de democracia tienden a tener mayores niveles de felicidad. Esto puede atribuirse a varios factores relacionados con la democracia y la participación ciudadana en la toma de decisiones políticas. En primer lugar, y probablemente haya aquí un sesgo cultural al observar estos datos desde una perspectiva occidental y liberal, la democracia proporciona una plataforma para la participación y la expresión de opiniones individuales.
+
+#Los ciudadanos en países democráticos tienen la oportunidad de influir en las políticas y los procesos gubernamentales a través de elecciones libres y justas, así como a través de la libertad de expresión y asociación. Esta participación ciudadana activa puede llevar a una mayor sensación de empoderamiento y satisfacción con el sistema político, lo que a su vez contribuye a la felicidad individual y colectiva.
+
+#Además, la transparencia y la rendición de cuentas son componentes clave de un sistema democrático sólido. Los países con niveles más altos de democracia suelen tener instituciones y mecanismos establecidos para combatir la corrupción y garantizar la equidad en la distribución de recursos. La corrupción percibida es uno de los factores evaluados en el informe de felicidad, y su existencia puede erosionar la confianza en las instituciones y socavar el bienestar de los ciudadanos. Por lo tanto, los países con una mayor democracia y menor corrupción tienden a obtener mejores resultados en términos de felicidad.
+
+#De la misma manera, los derechos civiles y políticos son fundamentales en una sociedad democrática. La protección de los derechos humanos, la igualdad de género, la libertad de religión y otros derechos individuales contribuyen a un entorno en el que las personas se sienten valoradas y respetadas. Estos aspectos también están estrechamente relacionados con la satisfacción y la felicidad de las personas.
+
+#Sin embargo, es importante tener en cuenta que existen múltiples factores que influyen en la felicidad de una sociedad, y la democracia no es la única variable determinante. Otros aspectos, como el desarrollo económico, la estabilidad social, la calidad de vida y los sistemas de bienestar, también desempeñan un papel importante en la determinación de los niveles de felicidad de un país.
+
+#En resumen, al cruzar los datos del informe "World Happiness Report" con los resultados del índice de democracia, se observa una relación positiva entre la felicidad y el nivel de democracia en los países.
+
+\`\`\`
+
+## Bullets
+
+When you click the **Render** button a document will be generated that includes:
+
+-   Content authored with markdown
+-   Output from executable code
+
+## Code
+
+When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+
+```{r}
+1 + 1
+```

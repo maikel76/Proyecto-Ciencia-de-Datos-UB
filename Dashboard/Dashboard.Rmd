@@ -1,0 +1,147 @@
+---
+title: "Dashboard"
+output: html_document
+date: "2023-05-27"
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+## CARGAMOS BBDD
+
+install.packages("readr")
+
+# Cargar archivo CSV - ¡¡¡IMPORTANTE: CAMBIA LA RUTA PARA QUE COINCIDA CON LA DE TU PC!!! 
+data <- read.csv("/cloud/project/Datos/democratic-hapiness.csv")
+```
+
+```{r}
+
+## CÓDIGO PARA LOS GRÁFICOS:
+
+# Instalación de paquetes
+install.packages("shiny")
+library(shiny)
+install.packages("ggplot2")
+library(ggplot2)
+
+## Gráfico de dispersión interactivo con el índice de democracia en el eje X, el nivel de felicidad en el eje Y y el tamaño o color de los puntos para representar el nivel de felicidad de diferentes países.
+
+# Definir la interfaz de la aplicación Shiny
+ui <- fluidPage(
+  titlePanel("TOP y LOW 20 PAÍSES EN FELICIDAD Y SU RELACIÓN CON NIVEL DEMOCRÁTICO"),
+    mainPanel(
+      plotOutput("scatterPlot", click = "plot_click"),
+      verbatimTextOutput("selectedCountry")
+    )
+  )
+
+# Definir el servidor de la aplicación Shiny
+server <- function(input, output) {
+  output$scatterPlot <- renderPlot({
+    # Crear el gráfico de dispersión
+    ggplot(data, aes(x = media, y = score, label = País)) +
+      geom_point(aes(size = Nivel_Felicidad, color = Nivel_Felicidad)) +
+      scale_color_gradient(low = "blue", high = "red") +
+      labs(x = "Índice de Democracia", y = "Nivel de Felicidad") +
+      theme_minimal()
+  })
+  
+  output$selectedCountry <- renderPrint({
+    # Obtener el país seleccionado al hacer clic
+    x <- nearPoints(data, input$plot_click, threshold = 10, maxpoints = 1)
+    if (nrow(x) > 0) {
+      selected_country <- x$country
+      print(selected_country)
+    }
+  })
+}
+
+## Diagrama de sectores que representa la distribución de los países en diferentes niveles de felicidad y destacando el nivel de democracia en cada categoría mediante colores.
+
+# Definir la interfaz de la aplicación Shiny
+ui <- fluidPage(
+  titlePanel("TOP y LOW 20 PAÍSES EN FELICIDAD Y SU RELACIÓN CON NIVEL DEMOCRÁTICO"),
+  sidebarLayout(
+    sidebarPanel(),
+    mainPanel(
+      plotOutput("pieChart")
+    )
+  )
+)
+
+# Definir el servidor de la aplicación Shiny
+server <- function(input, output) {
+  output$pieChart <- renderPlot({
+    # Crear el diagrama de sectores
+    ggplot(data, aes(x = "", fill = media)) +
+      geom_bar(width = 1, stat = "count") +
+      coord_polar("y", start = 0) +
+      labs(fill = "media") +
+      scale_fill_gradient(low = "orange", high = "green") +
+      facet_wrap(~ score, ncol = 2) +
+      theme_void() +
+      theme(legend.position = "bottom")
+  })
+}
+
+# Ejecutar la aplicación Shiny
+shinyApp(ui = ui, server = server)
+```
+
+```{r}
+
+
+library(shiny)
+library(ggplot2)
+install.packages("plotly")
+install.packages("dplyr")
+library(plotly)
+library(dplyr)
+
+# Definir la interfaz de la aplicación Shiny
+ui <- fluidPage(
+  titlePanel("Mapa Mundial Interactivo"),
+  sidebarLayout(
+    sidebarPanel(),
+    mainPanel(
+      plotlyOutput("worldMap")
+    )
+  )
+)
+
+# Definir el servidor de la aplicación Shiny
+server <- function(input, output) {
+  output$worldMap <- renderPlotly({
+    
+    # Crear el mapa mundial interactivo
+    plot_ly(
+      data = data, 
+      type = "choropleth", 
+      locations = ~country, 
+      locationmode = "country names", 
+      z = ~media, 
+      text = ~paste("País:", country, "<br>",
+                    "Felicidad:", media, "<br>",
+                    "Índice de Democracia:", score),
+      colorscale = "Blues",
+      colorbar = list(title = "Nivel de Felicidad")
+    ) %>% 
+      layout(
+        title = "Mapa Mundial de Felicidad",
+        geo = list(
+          showframe = FALSE,
+          showcoastlines = FALSE,
+          projection = list(type = "natural earth")
+        )
+      )
+  })
+}
+
+# Ejecutar la aplicación Shiny
+shinyApp(ui = ui, server = server)
+
+```
