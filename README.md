@@ -1,10 +1,13 @@
 # Proyecto-Ciencia-de-Datos-UB
-M7 RETO 2. ELABORACIÓN DE UN PROYECTO DE CIENCIA DE DATOS REPRODUCIBLE
 
-Tareas a realizar
+
+Este repositorio es un trabajo del máster "Behavioural Data Science" de la Universidad de Barcelon. A continuación se muestra el enunciado del ejercicio.
+
+
+M7 RETO 2. ELABORACIÓN DE UN PROYECTO DE CIENCIA DE DATOS REPRODUCIBLE
+Tareas a realizar:
 
 1. Cread un repositorio en Github en el que alojar todo vuestro proyecto de Ciencia de Datos y compartid el repositorio con la persona responsable de los bloques temáticos de reproducibilidad. La estructura del repositorio puede ser algo similar a la siguiente imagen: (1 punto)
-￼
 
 2. Formula un objetivo principal del proyecto de Ciencia de Datos así como varios objetivos específicos. Estos objetivos son los que guiarán todas las actividades de los siguientes puntos del reto. (1 punto)
 
