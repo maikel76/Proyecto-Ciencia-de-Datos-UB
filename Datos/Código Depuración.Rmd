@@ -4,16 +4,6 @@ output: html_document
 date: "2023-05-19"
 ---
 
-Los datos empleados en este trabajo provienen de "WHR-Happiness Score Dataset" y el "Índice de democracia" de la Unidad de Inteligencia de The Economist. 
-
-El cuestionario"WHR-Happiness Score Dataset" es elaborado anualmente desde 2005 por la "World Happiness Report" y  extraído de la web Gapminder.org (con la licencia internacional Creative Commons Attribution 4.0.). El "Índice de democracia" es una clasificación hecha por la Unidad de Inteligencia de The Economist, a través de la cual se pretende determinar el rango de democracia en 167 países. 
-
-Ya que durante el análisis exploratorio de los datos del informe "World Happiness Report" se ha encuentrado que para los países menos democráticos no hay datos suficientes se ha considerado que la alternativa más interesante es considerar otras fuentes alternativas de datos y analizar otros indicadores relacionas. Es por ello que se ha considerado interesante cruzar el "World Happiness Report" con el "Índice de democracia". Al cruzar los datos del informe internacional "World Happiness Report" de la Red de Soluciones para el Desarrollo Sostenible con los resultados del "Índice de Democracia" de la Unidad de Inteligencia de The Economist, podemos identificar una relación interesante entre la felicidad y el nivel de democracia en diferentes países.
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
-```
-
 ## Proyecto-Ciencia-de-Datos-UB
 
 ```{r}
@@ -22,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Instalar el paquete readr si no está instalado
 install.packages("readr")
-# Cargar el paquete tibble
+# Cargar el paquete readr
 library(readr)
 
 # Cargar archivo CSV (la fusión de "WHR-Happiness Score Dataset" con el "Índice de Democracia" ya se ha realizado con el software de ofimática Open Office)
@@ -67,7 +57,7 @@ print(data)
 
 ```{r}
 
-## GENERAMOS EL DATA FRAME CON LOS PAÍSES Y LAS 2 VARIABLES QUE NOS INTERESAN PARA NUESTRO ANÁLISIS
+## GENERAMOS EL DATA FRAME FINAL CON LOS PAÍSES Y LAS 2 VARIABLES QUE NOS INTERESAN PARA NUESTRO ANÁLISIS
 
 # Instalar el paquete tibble y dplyr si no está instalado
 install.packages("tibble")
@@ -84,6 +74,9 @@ data$score <- ifelse(is.na(data$score), 0, data$score)
 # Crear un nuevo dataframe con el índice y las columnas 1 (país), 2 (puntuación democrática), y última columna (media puntuación felicidad)
 df <- data %>%
   select(1, 2, last_col())
+
+# Guardar el data frame como un archivo CSV
+write.csv(df, "democratic-hapiness.csv", row.names = FALSE)
 
 # Imprimir el dataframe resultante
 print(df)
@@ -114,7 +107,8 @@ print(resumen)
 ```
 
 ```{r}
-# GENERAMOS EL DATA FRAME FINAL CON LAS 10 PUNTUACIONES MÁS ALTAS Y LAS 10 MÁS BAJAS DE LA COLUMNA "MEAN" (media felicidad de cada país)
+
+## GENERAMOS UN DATA FRAME ALTERNATIVO CON LOS 10 PAISES MÁS ALTOS Y LOS 10 MÁS BAJOS EN LA PUNTUACIÓN DE FELICIDAD 
 
 library(dplyr)
 
@@ -124,12 +118,12 @@ top_scores <- df %>% top_n(n, wt = media)  # Las 10 puntuaciones más altas
 bottom_scores <- df %>% top_n(-n, wt = media)  # Las 10 puntuaciones más bajas
 
 # Combinar los resultados en un nuevo data frame
-df <- rbind(top_scores, bottom_scores)
+df2 <- rbind(top_scores, bottom_scores)
 
 # Imprimir el df
-print(df)
+print(df2)
 
 # Guardar el data frame como un archivo CSV
-write.csv(df, "democratic-hapiness.csv", row.names = FALSE)
+write.csv(df2, "top-low-democratic-hapiness.csv", row.names = FALSE)
 
 ```

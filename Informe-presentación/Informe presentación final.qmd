@@ -1,36 +1,63 @@
 ---
-title: "Presentación"
+title: 😊 "Relación entre la felicidad y el índice democrático en 164 países." 😊
 format: revealjs
 editor: visual
 ---
 
-## Quarto
+## Descripción:
 
-\# Al analizar ambos conjuntos de datos, es posible observar una tendencia general de que los países con niveles más altos de democracia tienden a tener mayores niveles de felicidad. Esto puede atribuirse a varios factores relacionados con la democracia y la participación ciudadana en la toma de decisiones políticas. En primer lugar, y probablemente haya aquí un sesgo cultural al observar estos datos desde una perspectiva occidental y liberal, la democracia proporciona una plataforma para la participación y la expresión de opiniones individuales.
+Los datos empleados en este trabajo provienen de "WHR-Happiness Score Dataset" y el "Índice de democracia" de la Unidad de Inteligencia de The Economist.
 
-#Los ciudadanos en países democráticos tienen la oportunidad de influir en las políticas y los procesos gubernamentales a través de elecciones libres y justas, así como a través de la libertad de expresión y asociación. Esta participación ciudadana activa puede llevar a una mayor sensación de empoderamiento y satisfacción con el sistema político, lo que a su vez contribuye a la felicidad individual y colectiva.
+El cuestionario"WHR-Happiness Score Dataset" es elaborado anualmente desde 2005 por la "[World Happiness Report](https://worldhappiness.report/)" y extraído de la web Gapminder.org (con la licencia internacional Creative Commons Attribution 4.0.). El "[Índice de democracia](https://es.wikipedia.org/wiki/%C3%8Dndice_de_democracia)" es una clasificación hecha por la Unidad de Inteligencia de The Economist, a través de la cual se pretende determinar el rango de democracia en 167 países.
 
-#Además, la transparencia y la rendición de cuentas son componentes clave de un sistema democrático sólido. Los países con niveles más altos de democracia suelen tener instituciones y mecanismos establecidos para combatir la corrupción y garantizar la equidad en la distribución de recursos. La corrupción percibida es uno de los factores evaluados en el informe de felicidad, y su existencia puede erosionar la confianza en las instituciones y socavar el bienestar de los ciudadanos. Por lo tanto, los países con una mayor democracia y menor corrupción tienden a obtener mejores resultados en términos de felicidad.
+## Análisis exploratorio:
 
-#De la misma manera, los derechos civiles y políticos son fundamentales en una sociedad democrática. La protección de los derechos humanos, la igualdad de género, la libertad de religión y otros derechos individuales contribuyen a un entorno en el que las personas se sienten valoradas y respetadas. Estos aspectos también están estrechamente relacionados con la satisfacción y la felicidad de las personas.
+Ya que durante el análisis exploratorio de los datos del informe "World Happiness Report" se ha encuentrado que para los países menos democráticos no hay datos suficientes se ha considerado que la alternativa más interesante es considerar otras fuentes alternativas de datos y analizar otros indicadores relacionas. Es por ello que se ha considerado interesante cruzar el "World Happiness Report" con el "Índice de democracia".
 
-#Sin embargo, es importante tener en cuenta que existen múltiples factores que influyen en la felicidad de una sociedad, y la democracia no es la única variable determinante. Otros aspectos, como el desarrollo económico, la estabilidad social, la calidad de vida y los sistemas de bienestar, también desempeñan un papel importante en la determinación de los niveles de felicidad de un país.
+## Cruce de datos:
 
-#En resumen, al cruzar los datos del informe "World Happiness Report" con los resultados del índice de democracia, se observa una relación positiva entre la felicidad y el nivel de democracia en los países.
+Al cruzar los datos del informe internacional "World Happiness Report" de la Red de Soluciones para el Desarrollo Sostenible con los resultados del "Índice de Democracia" de la Unidad de Inteligencia de The Economist, podemos identificar una relación interesante entre la felicidad y el nivel de democracia en diferentes países.
 
-\`\`\`
+## Análisis:
 
-## Bullets
+Al analizar ambos conjuntos de datos, es posible observar una tendencia general de que los países con niveles más altos de democracia tienden a tener mayores niveles de felicidad. Esto puede atribuirse a varios factores relacionados:
 
-When you click the **Render** button a document will be generated that includes:
+-   Relación entre democracia y participación ciudadana.
 
--   Content authored with markdown
--   Output from executable code
+-   Transparencia y la rendición de cuentas.
 
-## Code
+-    Derechos civiles y políticos
 
-When you click the **Render** button a presentation will be generated that includes both content and the output of embedded code. You can embed code like this:
+## ¿Sesgo?:
+
+Probablemente haya aquí un sesgo cultural al observar estos datos desde una perspectiva occidental y liberal, ya que la persona que ha elaborado este informe opina que la democracia proporciona una plataforma para la participación y la expresión de opiniones individuales. Esta participación ciudadana activa puede llevar a una mayor sensación de empoderamiento y satisfacción con el sistema político, lo que a su vez contribuye a la felicidad individual y colectiva.
+
+## Gráfico:
 
 ```{r}
-1 + 1
+
+# Cargar archivo CSV - ¡¡¡IMPORTANTE: CAMBIA LA RUTA PARA QUE COINCIDA CON LA DE TU PC!!! 
+data <- read.csv("/cloud/project/Datos/democratic-hapiness.csv")
+
+# Instalar y cargar las bibliotecas necesarias
+install.packages("ggplot2")
+library(ggplot2)
+install.packages("plotly")
+library(plotly)
+    
+# Crear el gráfico de dispersión interactivo con etiquetas emergentes
+plot <- plot_ly(data, x = ~score, y = ~media, text = ~country, type = "scatter", mode = "markers")
+
+# Personalizar el gráfico
+plot <- plot %>% layout(xaxis = list(title = "Democracia"), yaxis = list(title = "Felicidad"), title = "Relación entre Felicidad y Democracia")
+
+# Mostrar el gráfico interactivo
+plot
+
 ```
+
+## Conclusión:
+
+En resumen, al cruzar los datos del informe "World Happiness Report" con los resultados del índice de democracia, se observa una relación positiva entre la felicidad y el nivel de democracia en los países.
+
+## 
